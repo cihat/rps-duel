@@ -5,51 +5,37 @@ import styles from './Board.module.css';
 import { Scissors } from './Scissors';
 import { getRandomNumber } from '../utils';
 
-const MAX_ENEMY_COUNT = 10;
+const MAX_SCISSOR_COUNT = 10;
 
 export default function Board(props: Props) {
-  const { userName, setScore, setScreen } = props;
+  // const { userName, setScore, setScreen } = props;
   let ctx: CanvasRenderingContext2D | null;
   let canvas: HTMLCanvasElement;
-  let lastEnemySpawnAt = Date.now();
-
-  // const canvasRef = React.useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
-    ctx = canvas?.getContext('2d');
-    let enemies = [] as Scissors[];
+    ctx = canvas?.getContext('2d') as CanvasRenderingContext2D;
+    let scissors = [] as Scissors[];
 
     if (ctx) {
       ctx.fillStyle = 'black';
       ctx.fillRect(0, 0, SCREEN.WIDTH, SCREEN.HEIGHT);
     }
 
-    const random = getRandomNumber(0, 200);
-    const random2 = getRandomNumber(0, 200);
-    while (enemies.length < MAX_ENEMY_COUNT ) {
-      enemies.push(new Scissors(
-        Math.random() < 0.5 ? getRandomNumber(-random, SCREEN.WIDTH / 2 - random)
-          : getRandomNumber(SCREEN.WIDTH + random, SCREEN.WIDTH / 2 + random),
-        Math.random() < 0.5 ? getRandomNumber(-random2, SCREEN.HEIGHT / 2 - random2)
-          : getRandomNumber(SCREEN.WIDTH + random2, SCREEN.HEIGHT / 2 + random2),
-      ));
-      lastEnemySpawnAt = Date.now();
+    while (scissors.length < MAX_SCISSOR_COUNT) {
+      const scissorX = getRandomNumber(10, SCREEN.WIDTH);
+      const scissorY = getRandomNumber(10, SCREEN.HEIGHT);
+      scissors.push(new Scissors(scissorX, scissorY));
     }
 
-    console.log('enemies', enemies)
-
     setInterval(() => {
-      ctx?.clearRect(0, 0, SCREEN.WIDTH, SCREEN.HEIGHT);
+      scissors.forEach((s) => {
+        if (!ctx) return
 
-      // enemies = enemies.filter((enemy) => !enemy.dead);
-      enemies.forEach((enemy) => {
-        // enemy.update(player, bullets);
-        enemy.draw(ctx);
+        s.draw(ctx);
       });
 
-
-    }, 10);
+    }, 1000 / 30);
   })
 
   return (

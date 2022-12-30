@@ -10,7 +10,7 @@ export default function App() {
   const [userName, setUserName] = useState("")
 
   return (
-    <div className="App">
+    <div className="App background">
       {
         screen === SCREEN.LOBBY ? (
           <Lobby userName={userName} setScreen={setScreen} setUsername={setUserName} />

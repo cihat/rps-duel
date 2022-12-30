@@ -1,5 +1,6 @@
 import React from 'react';
 import { SCREEN } from '../constants';
+import styles from './Lobby.module.css';
 
 type Props = {
   userName: string;
@@ -11,15 +12,9 @@ function Lobby(props: Props) {
   const { userName, setScreen, setUsername } = props;
   return (
     <div style={{ width: '200px', height: '100px' }}>
-      <input style={{ width: '100%' }} value={userName} onChange={(e) => setUsername(e.target.value)} />
+      {/* <input style={{ width: '100%' }} value={userName} onChange={(e) => setUsername(e.target.value)} /> */}
       <button
-        style={{
-          marginTop: '24px',
-          backgroundColor: 'black',
-          color: 'white',
-          width: '100%',
-          height: '30px',
-        }}
+        className={styles.button}
         type="submit"
         onClick={() => setScreen(SCREEN.PLAYING)}
       >
